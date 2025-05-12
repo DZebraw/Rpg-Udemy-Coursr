@@ -17,23 +17,22 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        xInput = 0;
-
-        //µ±µÚÈı´Î¹¥»÷ºó»òÕß³¤Ê±¼äÃ»ÓĞ¹¥»÷Ôò´ÓÍ·¿ªÊ¼¹¥»÷
+        xInput = 0;//ä¿®å¤è§’è‰²æ”»å‡»ä¸æœå‘ä¸ä¸€è‡´bug
+        
+        //å¦‚æœæ‰“è¿‡æœ€åä¸€å‡» æˆ–è€… é—´éš”æ—¶é—´å¤ªä¹… åˆ™å›åˆ°ç¬¬ä¸€å‡»
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
             comboCounter = 0;
 
         player.anim.SetInteger("ComboCounter", comboCounter);
         //player.anim.speed = 1.2f;
 
-
-        //¿ÉÒÔ´òµ½Ò»°ëµÄÊ±ºòÇĞ»»·½Ïò¼ÌĞø´ò
+        
         float attackDir = player.facingDir;
 
         if (xInput != 0)
             attackDir = xInput;
-
-        //Ëæ×Å²»Í¬µÄ¹¥»÷Ä£Ê½£¬ÒÆ¶¯µÄ¾àÀëÒ²²»Í¬
+        
+        //æ”»å‡»æ—¶å¾€å‰ç§»åŠ¨ä¸€å°æ®µ
         player.SetVelocity(player.attackMovement[comboCounter] * attackDir, rb.velocity.y);
 
         stateTimer = .1f;
@@ -43,6 +42,7 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Exit();
          
+        //æ”»å‡»ä¹‹åbusyä¸€æ®µæ—¶é—´ï¼Œè®©ç©å®¶ä¸ä¼šä¸€æ®µæ”»å‡»åˆšç»“æŸåŠ¨ç”»è¿˜æ²¡ç»“æŸå°±å¯ä»¥å¹³ç§»
         player.StartCoroutine("BusyFor", .15f);
         //player.anim.speed = 1;
 
@@ -53,12 +53,10 @@ public class PlayerPrimaryAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-
-        //¸Õ¿ªÊ¼¹¥»÷Ê±stateTimerÎªÕıÊı»áÖğ½¥µİ¼õ£¬Èç¹ûÔÚÕıÊıµÄÊ±ºò°´AD£¬¿ÉÒÔÔÚ¹¥»÷µÄÊ±ºòÒÆ¶¯
+        
         if (stateTimer < 0)
             player.SetZeroVelocity();
-
-        //´¥·¢Æ÷Ò»¿ªÊ¼ÊÇ false£¬ÔÚ¶¯»­²¥·ÅÍêÖ®ºó Ö´ĞĞAnimationTriggerÀïµÄ·½·¨£ºÈÃ´¥·¢Æ÷±äÎªtrue£¬×ªÎª´ı»ú×´Ì¬
+        
         if (triggerCalled)
             stateMachine.ChangeState(player.idleState);
     }

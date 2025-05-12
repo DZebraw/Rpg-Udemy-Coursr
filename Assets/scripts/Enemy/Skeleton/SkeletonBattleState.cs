@@ -34,13 +34,10 @@ public class SkeletonBattleState : EnemyState
         }
         else
         {
-            // ¿´µ½Íæ¼Òµ«ÊÇÒ»Ö±Ã»ÓĞ¹¥»÷µ½,»òÕßÀëµÃÌ«Ô¶ÁË ÔòÔÙ±äÎªÏĞÖÃ×´Ì¬
             if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 10) ;
-                stateMachine.ChangeState(enemy.idleState);
+            stateMachine.ChangeState(enemy.idleState);
         }
-
-
-        //Èç¹ûÍæ¼ÒÔÚÓÒ±ßÏòÓÒ×ß£»ÔÚ×ó±ßÏò×ó×ß
+        
         if (player.position.x > enemy.transform.position.x)
             moveDir = 1;
         else if (player.position.x < enemy.transform.position.x)
@@ -54,11 +51,12 @@ public class SkeletonBattleState : EnemyState
         base.Exit();
     }
 
+    //æ”»å‡»é—´éš”æ˜¯å¦è¾¾åˆ°
     private bool CanAttack()
     {
         if(Time.time >= enemy.lastTimeAttacked + enemy.attackCooldown)
         {
-            enemy.lastTimeAttacked = Time.time;
+            enemy.lastTimeAttacked = Time.time;//å¼€å§‹å†·å´
             return true;
         }
         return false;

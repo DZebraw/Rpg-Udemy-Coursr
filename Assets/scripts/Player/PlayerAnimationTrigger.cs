@@ -6,6 +6,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
 
+    //此方法由第一次攻击最后一帧调用
     private void AnimationTrigger()
     {
         player.AnimationTrigger();

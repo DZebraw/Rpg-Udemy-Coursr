@@ -13,7 +13,7 @@ public class PlayerCounterAttackState : PlayerState
         base.Enter();
 
         stateTimer = player.counterAttackDuration;
-        player.anim.SetBool("SuccessfulCounterAttack", false);
+        player.anim.SetBool("SuccessCounterAttack", false);
     }
 
     public override void Exit()
@@ -24,19 +24,19 @@ public class PlayerCounterAttackState : PlayerState
     public override void Update()
     {
         base.Update();
-
-        //检索框内的Enemy
+        
+        player.SetZeroVelocity();
+        
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
 
         foreach (var hit in colliders)
         {
-            //如果检查到<敌人>有Collider2D碰撞体 则执行 眩晕 函数
             if (hit.GetComponent<Enemy>() != null)
             {
                 if(hit.GetComponent<Enemy>().CanBeStunned())
                 {
                     stateTimer = 10;
-                    player.anim.SetBool("SuccessfulCounterAttack", true);
+                    player.anim.SetBool("SuccessCounterAttack", true);
                 }
             }
         }

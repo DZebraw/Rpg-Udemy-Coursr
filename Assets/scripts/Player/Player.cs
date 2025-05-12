@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : Entity
 {
     [Header("攻击")]
-    public float[] attackMovement;
-    public float counterAttackDuration = .2f;
-
-
+    public float[] attackMovement;//攻击往前移动的距离
+    
+    [Header("弹反")]
+    public float counterAttackDuration = .2f;//反击持续时间
+    
     public bool isBusy { get; private set; }
     [Header("移动")]
     public float moveSpeed = 12f;
@@ -62,7 +63,6 @@ public class Player : Entity
     protected override void Update()
     {
         base.Update();
-
         
         stateMachine.currentState.Update();
         

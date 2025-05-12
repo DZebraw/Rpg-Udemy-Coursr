@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-
-    #region ���
+    #region 人物
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
     #endregion
 
-    [Header("�ܻ���Ϣ")]
+    [Header("受击信息")]
     [SerializeField] protected Vector2 knockbackDirection;
     [SerializeField] protected float knockbackDuration;
-    protected bool isKnocked;
+    protected bool isKnocked;//用于在设置速度的时候做判断
 
-    [Header("��ײ��Ϣ")]
+    [Header("攻击范围")]
     public Transform attackCheck;
     public float attackCheckRadius;
+    
+    [Header("检测")]
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected Transform wallCheck;
@@ -35,7 +36,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Start()
     {
-        fx = GetComponentInChildren<EntityFX>();
+        fx = GetComponent<EntityFX>();
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -63,7 +64,7 @@ public class Entity : MonoBehaviour
         isKnocked = false;
     }
 
-    #region 速度模块
+    #region 设置速度
     public void SetZeroVelocity()
     {
         if (isKnocked)
@@ -81,7 +82,7 @@ public class Entity : MonoBehaviour
     }
     #endregion
 
-    #region 碰撞检测
+    #region 碰撞检测 绘制射线
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
     protected virtual void OnDrawGizmos()

@@ -6,18 +6,18 @@ public class Enemy : Entity
 {
     [SerializeField] protected LayerMask whatIsPlayer;
 
-    [Header("Ñ£ÔÎÐÅÏ¢")]
+    [Header("è¢«å¼¹å")]
     public float stunDuration;
     public Vector2 stunDirection;
     protected bool canBeStunned;
-    [SerializeField] protected GameObject counterImage;
+    [SerializeField] protected GameObject counterImage;//å¼¹åæç¤ºå›¾
 
-    [Header("ÒÆ¶¯ÐÅÏ¢")]
+    [Header("ç§»åŠ¨")]
     public float moveSpeed;
     public float idleTime;
     public float battleTime;
 
-    [Header("¹¥»÷ÐÅÏ¢")]
+    [Header("æ”»å‡»")]
     public float attackDistance;
     public float attackCooldown;
     [HideInInspector]public float lastTimeAttacked;
@@ -49,18 +49,13 @@ public class Enemy : Entity
             CloseCounterAttackWindow();
             return true;
         }
-
         return false;
     }
 
     protected override void Update()
     {
         base.Update();
-
-
-
         stateMachine.currentState.Update();
-
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();

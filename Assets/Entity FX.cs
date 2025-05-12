@@ -6,8 +6,8 @@ public class EntityFX : MonoBehaviour
 {
     private SpriteRenderer sr;
 
-    [Header("ÉÁ¹âÌØĞ§")]
-    [SerializeField] private float flashDuration;
+    [Header("å—å‡»ä¿¡æ¯")]
+    [SerializeField] private float flashDuration;//é—ªçƒæŒç»­æ—¶é—´
     [SerializeField] private Material hitMat;
     private Material originalMat;
 
