@@ -38,6 +38,7 @@ public class PlayerGroundState : PlayerState
             stateMachine.ChangeState(player.jumpState);
     }
 
+    //剑如果没扔出去则true，如果扔出去了则返回false且返回剑
     private bool HasNoSword()
     {
         if (!player.sword)

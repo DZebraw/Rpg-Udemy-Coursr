@@ -14,13 +14,14 @@ public class Player : Entity
     [Header("移动")]
     public float moveSpeed = 12f;
     public float jumpForce;
+    public float swordReturnImpact;//剑回来的后坐力
     [Header("冲刺")]
     public float dashSpeed;
     public float dashDuration;
     public float dashDir { get; private set; }
     
     public SkillManager skill { get; private set; }
-    public GameObject sword; //{get; private set;} //为投出去的剑
+    public GameObject sword {get; private set;} //为投出去的剑
 
     #region 状态声名
     public PlayerStateMachine stateMachine { get; private set; }
@@ -83,8 +84,9 @@ public class Player : Entity
         sword = _newSword;
     }
 
-    public void ClearTheSword()
+    public void CatchTheSword()
     {
+        stateMachine.ChangeState(catchSword);
         Destroy(sword);
     }
 

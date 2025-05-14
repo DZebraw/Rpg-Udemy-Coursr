@@ -1,10 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public enum SwordType
+{
+    Regular,
+    Bounce,//弹射
+    Pierce,//穿刺
+    Spin
+}
+
 public class Sword_Skill : Skill
 {
+    public SwordType swordType = SwordType.Regular;//默认值
+    
+    [Header("弹射信息")]
+    [SerializeField] private int bounceAmount;
+    [SerializeField] private float bounceGravity;
+    
+    [Header("穿刺信息")]
+    [SerializeField] private int pierceAmount;
+    [SerializeField] private float pierceGravity;
+
+    [Header("旋转信息")]
+    [SerializeField] private float hitCooldown = .35f;//每秒攻击次数
+    [SerializeField] private float maxTravelDistance = 7;
+    [SerializeField] private float spinDuration = 2;
+    [SerializeField] private float spinGravity = 1;
+    
     [Header("技能信息")]
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
@@ -25,6 +47,18 @@ public class Sword_Skill : Skill
         base.Start();
         
         GenerateDots();
+
+        SetupGravity();
+    }
+
+    private void SetupGravity()
+    {
+        if(swordType == SwordType.Bounce)
+            swordGravity = bounceGravity;
+        else if(swordType == SwordType.Pierce)
+            swordGravity = pierceGravity;
+        else if(swordType == SwordType.Spin)
+            swordGravity = spinGravity;
     }
 
     protected override void Update()
@@ -46,6 +80,14 @@ public class Sword_Skill : Skill
     {
         GameObject newSword = Instantiate(swordPrefab,player.transform.position,transform.rotation);
         Sword_Skill_Controller newSwordScript = newSword.GetComponent<Sword_Skill_Controller>();
+
+        //如果剑的类型为弹射形，那么注册弹射的属性。否则isbouncing为flase，不触发弹射的性质
+        if (swordType == SwordType.Bounce)
+            newSwordScript.SetupBounce(true,bounceAmount);
+        else if(swordType == SwordType.Pierce)
+            newSwordScript.SetupPierce(pierceAmount);
+        else if(swordType == SwordType.Spin)
+            newSwordScript.SetupSpin(true,maxTravelDistance,spinDuration,hitCooldown);
         
         newSwordScript.SetupSword(finalDir,swordGravity,player);
         
@@ -54,6 +96,7 @@ public class Sword_Skill : Skill
         DotsActive(false);
     }
     
+    #region 瞄准区域
     public Vector2 AimDirection()
     {
         Vector2 playerPosition = player.transform.position;
@@ -92,4 +135,5 @@ public class Sword_Skill : Skill
 
         return position;
     }
+    #endregion
 }
