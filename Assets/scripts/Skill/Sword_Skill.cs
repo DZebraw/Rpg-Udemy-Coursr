@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,6 +17,7 @@ public class Sword_Skill : Skill
     [Header("弹射信息")]
     [SerializeField] private int bounceAmount;
     [SerializeField] private float bounceGravity;
+    [SerializeField] private float bounceSpeed;
     
     [Header("穿刺信息")]
     [SerializeField] private int pierceAmount;
@@ -31,6 +33,8 @@ public class Sword_Skill : Skill
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
     [SerializeField] private float swordGravity;
+    [SerializeField] private float freezeTimeDuration;
+    [SerializeField] private float returnSpeed;
 
     private Vector2 finalDir;
     
@@ -83,13 +87,13 @@ public class Sword_Skill : Skill
 
         //如果剑的类型为弹射形，那么注册弹射的属性。否则isbouncing为flase，不触发弹射的性质
         if (swordType == SwordType.Bounce)
-            newSwordScript.SetupBounce(true,bounceAmount);
+            newSwordScript.SetupBounce(true,bounceAmount,bounceSpeed);
         else if(swordType == SwordType.Pierce)
             newSwordScript.SetupPierce(pierceAmount);
         else if(swordType == SwordType.Spin)
             newSwordScript.SetupSpin(true,maxTravelDistance,spinDuration,hitCooldown);
         
-        newSwordScript.SetupSword(finalDir,swordGravity,player);
+        newSwordScript.SetupSword(finalDir,swordGravity,player,freezeTimeDuration,returnSpeed);
         
         player.AssignNewSword(newSword);
         

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerDashState : PlayerState
@@ -12,7 +9,7 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.skill.clone.CreateClone(player.transform);
+        player.skill.clone.CreateClone(player.transform,Vector2.zero);
         stateTimer = player.dashDuration;
     }
 
